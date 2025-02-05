@@ -1,0 +1,32 @@
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background-color: white;
+    box-shadow: 0px 4px 6px 0px #0000000D;
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+.menu {
+    font-size: 45px;
+}
+
+.enviar {
+    font-size: 26px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px -4px 6px 0px #0000000D;
+    position: fixed;
+    bottom: 0;
+}
