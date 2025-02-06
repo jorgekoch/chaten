@@ -11,24 +11,27 @@
 <body>
     <header>
         <div class="logo">
-            <img src="img/logo 1 (1).png">
+            <img src="./img/logo 1 (1).png">
         </div>
         <div class="menu">
             <ion-icon name="people"></ion-icon>
         </div>
     </header>
     <section>
-        <div class="historico"></div>
+        <div class="historico">
+            <ul class="mensagens">
+            </ul>
+        </div>
     </section>
     <footer>
         <div class="digitar">
-            <input type="text" placeholder="Digite aqui...">
+            <input type="text" class="chat" placeholder="Digite aqui...">
         </div>
-        <div class="enviar">
+        <button onclick="adicionarMensagem()" class="enviar">
             <ion-icon name="paper-plane-outline"></ion-icon>
-        </div>
+        </button>
     </footer>
-    <script src="JavaScript.js"></script>
+    <script src="javascript.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

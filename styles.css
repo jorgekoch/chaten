@@ -14,6 +14,36 @@ header {
     font-size: 45px;
 }
 
+.historico {
+    display: flex;
+    flex-direction: column;
+    margin-top: 26px;
+    margin-left: 5px;
+}
+
+.mensagens li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: solid 1px black;
+}
+
+.message-text {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.message-time {
+    display: inline-block;
+    color: gray;
+    font-size: 0.8em;
+}
+
+.message-user {
+    display: inline-block;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
 .enviar {
     font-size: 26px;
 }
