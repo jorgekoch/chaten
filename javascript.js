@@ -1,4 +1,18 @@
-const usuario = prompt("Digite seu nome de usuário: ");
+const usuario = [];
+usuario += prompt("Digite seu nome de usuário: ");
+if (usuario === null || usuario === '') {
+    alert("Nome de usuário inválido");
+    location.reload();
+    usuarioDuplicado();
+}
+
+function usuarioDuplicado() {
+    if (usuario === mensagens[Nome]){
+        alert("Esse nome de usuário já existente, escolha outro nome");
+        location.reload();
+    }
+}
+
 const mensagens = [];
 
 function renderizarMensagem() {
@@ -39,6 +53,5 @@ function adicionarMensagem() {
         document.querySelector(".chat").value = ''; 
     }
 }
-
 
 renderizarMensagem();
