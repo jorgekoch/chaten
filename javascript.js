@@ -1,5 +1,7 @@
 const usuarios = [];
 let usuario = '';
+const mensagens = [];
+
 
 function definirUsuario() {
     usuario = prompt("Digite seu nome de usuário:");
@@ -32,8 +34,6 @@ function tratarErro(erro) {
     }
 }
 
-definirUsuario();
-
 function manterConexao() {
     axios.post("https://mock-api.driven.com.br/api/v6/uol/status/14ac71ea-a29f-4c8a-85dc-a54fe68263fe", { name: usuario })
         .then(response => {
@@ -44,10 +44,6 @@ function manterConexao() {
         });
 }
 
-setInterval(manterConexao, 5000);
-
-const mensagens = [];
-
 function renderizarMensagem() {
     const ul = document.querySelector(".mensagens");
     ul.innerHTML = "";
@@ -57,11 +53,13 @@ function renderizarMensagem() {
         let messageClass = '';
 
         if (mensagem.Tipo === 'status') {
-            if (mensagem.Mensagem.includes('entrou na sala')) {
-                messageClass = 'message-enter';
-            } else if (mensagem.Mensagem.includes('saiu da sala')) {
-                messageClass = 'message-exit';
-            }
+            messageClass = 'status-message';
+        }
+        else if (mensagem.Tipo === 'message') {
+            messageClass = 'text-message';
+        }
+        else if (mensagem.Tipo === 'private_message') {
+            messageClass = 'private-message';
         }
 
         ul.innerHTML += `
@@ -127,6 +125,50 @@ function carregarMensagens() {
             console.error("Erro ao carregar mensagens:", error);
         });
 }
+
+function toggleMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+let usuarioSelecionado = '';
+
+function selecionarUsuario(nome) {
+    usuarioSelecionado = nome;
+    const destinatario = document.querySelector('.destinatario');
+    destinatario.innerHTML = `Enviando para ${nome} (reservadamente)`;         
+    
+}
+
+document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
+
+function chamarParticipantes() {
+    axios.get("https://mock-api.driven.com.br/api/v6/uol/participants/14ac71ea-a29f-4c8a-85dc-a54fe68263fe")
+        .then(response => {
+            const ul = document.querySelector(".lista-participantes");
+            ul.innerHTML = "";
+
+            response.data.forEach(participante => {
+                ul.innerHTML += `
+                    <li onclick="selecionarUsuario(this)">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    ${participante.name}</li>`;
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao carregar participantes:", error);
+        });
+}
+
+definirUsuario();
+
+setInterval(manterConexao, 5000);
+
+chamarParticipantes();
+
+setInterval(chamarParticipantes, 5000);
 
 carregarMensagens();
 
