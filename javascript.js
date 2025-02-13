@@ -137,9 +137,13 @@ let usuarioSelecionado = '';
 
 function selecionarUsuario(nome) {
     usuarioSelecionado = nome;
-    const destinatario = document.querySelector('.destinatario');
-    destinatario.innerHTML = `Enviando para ${nome} (reservadamente)`;         
-    
+    const destinatario = document.querySelector('.nome-destinatario');
+    destinatario.innerText = `Enviando para ${nome} (reservadamente)`;   
+}
+
+function adicionarClasseSelecionado() {
+    const selecionado = document.querySelector('.nome-destinatario');
+    selecionado.classList.add('selecionado');
 }
 
 document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
@@ -152,9 +156,9 @@ function chamarParticipantes() {
 
             response.data.forEach(participante => {
                 ul.innerHTML += `
-                    <li onclick="selecionarUsuario(this)">
-                    <ion-icon name="person-circle-outline"></ion-icon>
-                    ${participante.name}</li>`;
+                    <div class="nome-destinatario">
+                    ${participante.name}</div>
+                    `;
             });
         })
         .catch(error => {
