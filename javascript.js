@@ -135,15 +135,14 @@ function toggleMenu() {
 
 let usuarioSelecionado = '';
 
-function selecionarUsuario(nome) {
-    usuarioSelecionado = nome;
-    const destinatario = document.querySelector('.nome-destinatario');
-    destinatario.innerText = `Enviando para ${nome} (reservadamente)`;   
-}
-
-function adicionarClasseSelecionado() {
+function selecionarUsuario(usuario) {
     const selecionado = document.querySelector('.nome-destinatario');
     selecionado.classList.add('selecionado');
+
+    usuarioSelecionado = usuario;
+    const destinatario = document.querySelector('.nome-destinatario');
+
+    destinatario.innerText = `Enviando para ${usuario} (reservadamente)`;   
 }
 
 document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
