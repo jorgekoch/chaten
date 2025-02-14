@@ -1,13 +1,14 @@
 const usuarios = [];
 let usuario = '';
 const mensagens = [];
+let usuarioSelecionado = 'Todos';
 
 
 function definirUsuario() {
     usuario = prompt("Digite seu nome de usuário:");
 
-    while (usuario === null || usuario.trim() === '' || usuarios.includes(usuario)) {
-        if (usuario === null || usuario.trim() === '') {
+    while (usuario === null || usuario === '' || usuarios.includes(usuario)) {
+        if (usuario === null || usuario === '') {
             alert("Nome de usuário inválido");
         } else if (usuarios.includes(usuario)) {
             alert("Esse nome de usuário já existe, escolha outro nome");
@@ -54,20 +55,31 @@ function renderizarMensagem() {
 
         if (mensagem.Tipo === 'status') {
             messageClass = 'status-message';
-        }
-        else if (mensagem.Tipo === 'message') {
-            messageClass = 'text-message';
-        }
-        else if (mensagem.Tipo === 'private_message') {
-            messageClass = 'private-message';
-        }
-
-        ul.innerHTML += `
+            ul.innerHTML += `
             <li class="${messageClass}">
                 <div class="message-time">${mensagem.Hora}</div>
                 <div class="message-user">${mensagem.Nome}</div>
                 <div class="message-text">${mensagem.Mensagem}</div>
             </li>`;
+        }
+        else if (mensagem.Tipo === 'message') {
+            messageClass = 'text-message';
+            ul.innerHTML += `
+            <li class="${messageClass}">
+                <div class="message-time">${mensagem.Hora}</div>
+                <div class="message-user">${mensagem.Nome} <span> para Todos</span></div>
+                <div class="message-text">${mensagem.Mensagem}</div>
+            </li>`;
+        }
+        else if (mensagem.Tipo === 'private_message') {
+            messageClass = 'private-message';
+            ul.innerHTML += `
+            <li class="${messageClass}">
+                <div class="message-time">${mensagem.Hora}</div>
+                <div class="message-user">${mensagem.Nome} <span> reservadamente para ${usuarioSelecionado}>/span></div>
+                <div class="message-text">${mensagem.Mensagem}</div>
+            </li>`;
+        }
     }
 }
 
@@ -81,7 +93,7 @@ function adicionarMensagem() {
     const campoNome = usuario;
     const campoMensagem = document.querySelector(".chat").value;
 
-    if (campoMensagem.trim() !== '') {
+    if (campoMensagem !== '') {
         const novaMensagem = {
             Hora: campoHora,
             Nome: campoNome,
@@ -94,9 +106,9 @@ function adicionarMensagem() {
 
         const mensagemObj = {
             from: usuario,
-            to: "Todos",
+            to: usuarioSelecionado, 
             text: campoMensagem,
-            type: "message" 
+            type: usuarioSelecionado === "Todos" ? "message" : "private_message" 
         };
 
         axios.post("https://mock-api.driven.com.br/api/v6/uol/messages/14ac71ea-a29f-4c8a-85dc-a54fe68263fe", mensagemObj)
@@ -133,19 +145,21 @@ function toggleMenu() {
     overlay.classList.toggle('show');
 }
 
-let usuarioSelecionado = '';
-
 function selecionarUsuario(usuario) {
-    const selecionado = document.querySelector('.nome-destinatario');
-    selecionado.classList.add('selecionado');
+    usuario.classList.add("selecionado");
 
-    usuarioSelecionado = usuario;
-    const destinatario = document.querySelector('.nome-destinatario');
+    const nomeUsuario = document.querySelector(".selecionado .nome-usuario").innerText;
+    usuarioSelecionado = nomeUsuario;
 
-    destinatario.innerText = `Enviando para ${usuario} (reservadamente)`;   
+    const destinatario = document.querySelector('.destinatario');
+    destinatario.innerText = `Enviando para ${nomeUsuario} (reservadamente)`;
 }
 
-document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
+function enviarParaTodos() {
+        usuarioSelecionado = 'Todos';
+        const destinatario = document.querySelector('.destinatario');
+        destinatario.innerText = 'Enviando para Todos (público)';
+    }
 
 function chamarParticipantes() {
     axios.get("https://mock-api.driven.com.br/api/v6/uol/participants/14ac71ea-a29f-4c8a-85dc-a54fe68263fe")
@@ -155,8 +169,10 @@ function chamarParticipantes() {
 
             response.data.forEach(participante => {
                 ul.innerHTML += `
-                    <div class="nome-destinatario">
-                    ${participante.name}</div>
+                    <li onclick="selecionarUsuario(this)">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <div class="nome-usuario"> ${participante.name} </div>
+                    </li>
                     `;
             });
         })
@@ -164,6 +180,8 @@ function chamarParticipantes() {
             console.error("Erro ao carregar participantes:", error);
         });
 }
+
+document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
 
 definirUsuario();
 

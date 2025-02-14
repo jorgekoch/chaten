@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="reset.css">
@@ -24,10 +27,12 @@
         </div>
     </section>
     <footer>
-        <div class="digitar">
+        <div class="mensagem-texto">
+            <div class="digitar">
             <input type="text" class="chat" placeholder="Digite aqui...">
-        </div>
-        <div class="destinatario">
+            </div>
+            <div class="destinatario">
+            </div>
         </div>
         <button onclick="adicionarMensagem()" class="enviar">
             <ion-icon name="paper-plane-outline"></ion-icon>
@@ -36,7 +41,7 @@
     <div class="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar">
         <h2>Escolha um contato para enviar mensagem:</h2>
-        <div class="todos">
+        <div class="todos" onclick="enviarParaTodos()">
             <ion-icon name="people"></ion-icon>
             Todos
         </div>
