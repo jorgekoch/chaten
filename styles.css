@@ -84,7 +84,7 @@ footer {
     font-family: Roboto;
 }
 
-.span {
+.neutro {
     font-family: Roboto;
     font-weight: 400;
     font-size: 14px;
@@ -154,8 +154,14 @@ h2, h3 {
 }
 
 .todos .lista-participantes .publico .reservadamente .icon {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
     margin-left: 10px;
+    font-size: 25px;
 }
+
+
 
 .sidebar.open {
     right: 0;

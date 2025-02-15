@@ -67,7 +67,7 @@ function renderizarMensagem() {
             ul.innerHTML += `
             <li class="${messageClass}">
                 <div class="message-time">${mensagem.Hora}</div>
-                <div class="message-user">${mensagem.Nome} <span> para Todos</span></div>
+                <div class="message-user">${mensagem.Nome}<span class="neutro"> para</span> Todos: </div>
                 <div class="message-text">${mensagem.Mensagem}</div>
             </li>`;
         }
@@ -76,7 +76,7 @@ function renderizarMensagem() {
             ul.innerHTML += `
             <li class="${messageClass}">
                 <div class="message-time">${mensagem.Hora}</div>
-                <div class="message-user">${mensagem.Nome} <span> reservadamente para ${usuarioSelecionado}>/span></div>
+                <div class="message-user">${mensagem.Nome} <span class="neutro">reservadamente para</span> ${usuarioSelecionado}: </div>
                 <div class="message-text">${mensagem.Mensagem}</div>
             </li>`;
         }
@@ -182,6 +182,14 @@ function chamarParticipantes() {
 }
 
 document.querySelector('.destinatario').innerHTML = 'Enviando para Todos (público)';
+
+const scroller = document.querySelector('.mensagens');
+const observer = new MutationObserver(() => {
+    scroller.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+});
+
+observer.observe(scroller, { childList: true });
+
 
 definirUsuario();
 
